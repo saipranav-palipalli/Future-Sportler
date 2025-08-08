@@ -1,49 +1,125 @@
-# Here are your Instructions
-🎯 AI Archery Form Analyzer
-Transform your archery with cutting-edge AI and 3D biomechanical feedback. Crafted with passion by a team of archery enthusiasts and tech experts, this platform feels like having a world-class coach by your side.
-Why It’s Special
-
-Precision Analysis: AI-powered insights break down your form with 3D visualizations.
-Pro-Level Coaching: Curated video tutorials for beginners to advanced archers.
-Premium Design: Sleek, intuitive interface with stunning visuals that inspire excellence.
-
+AI Archery Form Analyzer
+Overview
+The AI Archery Form Analyzer is a cutting-edge web application designed to analyze archery form through video uploads, providing detailed biomechanical feedback, error detection, and actionable recommendations. With a premium, modern interface and advanced 3D visualization, it empowers archers of all skill levels to improve their technique with precise, quantified insights.
+This project combines a robust backend for video analysis with a sleek frontend featuring a professional design, interactive 3D annotations, and a user-friendly workflow. It supports diverse archer profiles, camera angles, and lighting conditions, ensuring generalizability and accuracy.
 Features
 
-Hero Section: Bold imagery of an archer in action, paired with a motivational call-to-action: “Perfect Your Shot.”
-Skill-Level Tutorials: Five videos with hand-drawn badges for beginner, intermediate, and advanced levels.
-Analytics Dashboard: Dynamic, high-tech visuals showcasing real-time biomechanical feedback.
-Human Touch: Subtle animations (like an arrow in flight) and warm, inviting design elements make it feel personal.
+Premium Design: A clean, professional interface with a hero section, gradient text, and feature cards.
+Video Analysis: Processes videos (e.g., Video-1.mp4 to Video-5.mp4) to evaluate stance, draw, anchor point, and release.
+3D Visualization: Interactive 3D canvas with Three.js, showing:
+Color-coded skeleton for error detection
+Error arrows and angle measurements (e.g., "Elbow angle deviates by X degrees")
+Ideal vs. actual movement path overlays
+Performance score display
 
-Get Started
 
-Clone the repo:git clone <repository-url>
+Skill Level Badges: Displays Beginner, Intermediate, or Advanced for each video.
+Quantified Feedback: Provides specific metrics (e.g., stance score, draw smoothness) and actionable recommendations.
+Generalizability: Handles varied archer body types, bow types (recurve/compound), camera angles, and lighting conditions.
+
+How It Works
+
+Upload or Select Video: Users can upload their own videos or select from sample videos (Video-1.mp4 to Video-5.mp4).
+Analysis Processing: The backend processes the video (17-25 seconds) using AI to analyze biomechanical aspects:
+Stance: Foot placement and body alignment with angle measurements.
+Draw: Smoothness, elbow tracking, and shoulder consistency.
+Anchor Point: Consistency with percentage variation.
+Release: Hand movement detection.
 
 
-Open index.html in a browser with JavaScript enabled.
-Explore AI-driven insights and video tutorials to elevate your game.
+Results Display: The frontend presents:
+A 3D visualization with error annotations, angle indicators, and color-coded skeleton.
+A performance score (e.g., 40/100 for Video-1) and detailed metrics.
+Actionable recommendations for improvement.
 
-Built With
 
-React & JSX: Modular components for a smooth, modern experience.
-Tailwind CSS: Clean, responsive styling that feels hand-crafted.
-Curated Imagery: High-quality visuals from Unsplash and Pexels, blending archery and technology.
+Interactive Controls: Users can navigate frames, view annotations, and interact with the 3D scene.
 
-Visuals
+Technologies Used
 
-Hero: Archer aiming – Captures focus and precision.
-Features: Traditional bow & Tech interface – Showcases heritage and innovation.
-Analytics: Sports analyst – Highlights data-driven coaching.
+Frontend:
+HTML, CSS (Tailwind CSS for styling)
+JavaScript (Three.js for 3D visualization)
+React (optional, for dynamic components)
+
+
+Backend:
+Python (Flask/FastAPI for API)
+AI/ML models for biomechanical analysis
+Video processing libraries (e.g., OpenCV)
+
+
+Testing:
+Backend: Python (unittest for API testing, as seen in backend_test.py)
+Frontend: Manual testing for UI/UX, modal, and 3D rendering
+
+
+Deployment:
+Hosted on a web server (e.g., Heroku, AWS, or Vercel)
+CDN for static assets (e.g., Three.js)
+
+
+
+Installation
+
+Clone the repository:git clone https://github.com/your-username/ai-archery-form-analyzer.git
+
+
+Install backend dependencies:cd backend
+pip install -r requirements.txt
+
+
+Install frontend dependencies (if using React):cd frontend
+npm install
+
+
+Run the backend server:python app.py
+
+
+Run the frontend (if using React):npm start
+
+
+Access the app at http://localhost:3000 (or your configured port).
+
+Testing
+
+Backend Tests: Run backend_test.py to test API endpoints and video analysis:python backend_test.py
+
+
+Tests all 5 sample videos for generalizability, error detection, and performance.
+Verifies API health, video processing, and error handling.
+
+
+Frontend Tests: Manually verify:
+Hero section with gradient text and feature cards.
+Video modal with correct ordering and skill badges.
+3D visualization with error arrows, angle measurements, and interactive controls.
+
+
+
+Sample Video Results
+
+Video-1.mp4: Score 40/100, 4 errors, Intermediate
+Video-2.mp4: Score 55/100, 3 errors, Beginner
+Video-3.mp4: Score 25/100, 5 errors, Intermediate
+Video-4.mp4: Score 40/100, 4 errors, Intermediate
+Video-5.mp4: Score 40/100, 4 errors, Advanced
+
+Future Improvements
+
+Fix minor backend issue (invalid video returns 500 instead of 404).
+Optimize WebGL performance to reduce console warnings.
+Add support for real-time video analysis.
+Expand to other sports with similar biomechanical analysis needs.
 
 Contributing
-Love archery or tech? Join us!
+Contributions are welcome! Please:
 
-Fork the repo.
-Create a branch: git checkout -b your-feature.
-Commit changes: git commit -m "Add something awesome".
-Push: git push origin your-feature.
-Submit a pull request.
+Fork the repository.
+Create a feature branch (git checkout -b feature/YourFeature).
+Commit changes (git commit -m 'Add YourFeature').
+Push to the branch (git push origin feature/YourFeature).
+Open a pull request.
 
 License
-MIT License – Free to use, share, and modify.
-Contact
-Questions? Reach out at support@example.com. We’re here to help you hit the bullseye!
+This project is licensed under the MIT License. See the LICENSE file for details.
