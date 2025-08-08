@@ -166,6 +166,65 @@ class ArcheryAPITester:
         except Exception as e:
             return self.log_test("Invalid Video Analysis", False, f"- Error: {str(e)}")
 
+    def test_all_sample_videos(self):
+        """Test analysis of ALL 5 sample videos for generalizability"""
+        video_results = {}
+        
+        for i in range(1, 6):
+            video_name = f"Video-{i}.mp4"
+            print(f"\n🎯 Testing {video_name} for model generalizability...")
+            
+            try:
+                start_time = time.time()
+                response = self.session.post(f"{self.base_url}/api/analyze-sample/{video_name}")
+                processing_time = time.time() - start_time
+                
+                if response.status_code == 200:
+                    data = response.json()
+                    analysis = data.get("analysis", {}).get("analysis", {})
+                    
+                    video_results[video_name] = {
+                        'score': analysis.get("overall_score", 0),
+                        'errors': len(analysis.get("errors", [])),
+                        'recommendations': len(analysis.get("recommendations", [])),
+                        'processing_time': processing_time,
+                        'stance_score': analysis.get("stance_analysis", {}).get("metrics", {}).get("stance_score", 0),
+                        'draw_smoothness': analysis.get("draw_analysis", {}).get("metrics", {}).get("draw_smoothness", 0),
+                        'anchor_consistency': analysis.get("anchor_analysis", {}).get("metrics", {}).get("anchor_consistency", 0),
+                        'release_smoothness': analysis.get("release_analysis", {}).get("metrics", {}).get("release_smoothness", 0)
+                    }
+                    
+                    details = (f"- Score: {video_results[video_name]['score']}/100, "
+                              f"Errors: {video_results[video_name]['errors']}, "
+                              f"Time: {processing_time:.1f}s")
+                    
+                    self.log_test(f"Analysis {video_name}", True, details)
+                else:
+                    self.log_test(f"Analysis {video_name}", False, f"- HTTP {response.status_code}")
+                    
+            except Exception as e:
+                self.log_test(f"Analysis {video_name}", False, f"- Error: {str(e)}")
+        
+        # Analyze generalizability
+        if len(video_results) >= 3:
+            scores = [r['score'] for r in video_results.values()]
+            score_variance = max(scores) - min(scores)
+            
+            print(f"\n📊 GENERALIZABILITY ANALYSIS:")
+            print(f"Score Range: {min(scores)} - {max(scores)} (variance: {score_variance})")
+            
+            for video, results in video_results.items():
+                print(f"{video}: Score={results['score']}, Errors={results['errors']}, "
+                      f"Stance={results['stance_score']:.1f}, Draw={results['draw_smoothness']:.1f}")
+            
+            # Check if system shows different results (good generalizability)
+            if score_variance > 20:  # At least 20 point difference between videos
+                self.log_test("Model Generalizability", True, f"- Good variance in scores ({score_variance} points)")
+            else:
+                self.log_test("Model Generalizability", False, f"- Low variance suggests poor generalizability ({score_variance} points)")
+        
+        return len(video_results) >= 3
+
     def run_all_tests(self):
         """Run all backend API tests"""
         print("🏹 AI Archery Form Analyzer - Backend API Testing")
@@ -178,7 +237,7 @@ class ArcheryAPITester:
         tests = [
             self.test_health_endpoint,
             self.test_sample_videos_endpoint,
-            lambda: self.test_sample_video_analysis("Video-1.mp4"),
+            self.test_all_sample_videos,  # Test ALL 5 videos
             self.test_invalid_video_analysis,
         ]
 
